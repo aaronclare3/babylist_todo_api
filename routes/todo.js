@@ -58,6 +58,16 @@ router.patch("/complete/:id", getTodo, async (req, res) => {
   }
 });
 
+// Deleting One
+router.delete("/:id", getTodo, async (req, res) => {
+  try {
+    await res.todo.remove();
+    res.json({ message: "Deleted Todo" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 async function getTodo(req, res, next) {
   let todo;
   try {
@@ -72,15 +82,5 @@ async function getTodo(req, res, next) {
   res.todo = todo;
   next();
 }
-
-// Deleting One
-router.delete("/:id", getTodo, async (req, res) => {
-  try {
-    await res.todo.remove();
-    res.json({ message: "Deleted Todo" });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
 
 module.exports = router;
